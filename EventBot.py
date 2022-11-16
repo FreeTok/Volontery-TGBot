@@ -1,3 +1,5 @@
+import time
+
 import telebot
 import config
 
@@ -11,10 +13,17 @@ polling = []
 newevents = []
 neweventsIDs = []
 
+# def rassilka(message):
+#     cursor.execute('SELECT id FROM login_id')
+#     result = cursor.fetchall()
+#     msg = '[Тут рассылаемое сообщение]'
+#     for x in result:
+#         bot.send_message(x[YOU_BD_NUMBER], str(msg))
+
 @bot.message_handler(commands=['start'])
 def welcome(message):
     bot.send_message(message.chat.id,
-                     "Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, введите своё имя, фамилию, возвраст и номер телефона через пробелы 🇷🇺".format(
+                     "Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, введите своё имя, фамилию, возвраст и номер телефона через пробелы".format(
                                  message.from_user, bot.get_me()),
                      parse_mode='html')
     polling.append(message.chat.id)
@@ -199,7 +208,6 @@ def lalala(message):
 
             bot.send_message(message.chat.id, 'Назад', reply_markup=markup)
 
-
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     try:
@@ -221,7 +229,7 @@ def callback_inline(call):
                     bot.send_message(call.message.chat.id, 'Новое событие создано', reply_markup=markup)
 
                 elif call.data == "Dont create":
-                    bot.send_message(call.message.chat.id, 'Бывает 😢', reply_markup=markup)
+                    bot.send_message(call.message.chat.id, 'Жалко 😢', reply_markup=markup)
 
                 creating.pop(index)
                 newevents.pop(index)
@@ -368,7 +376,6 @@ def callback_inline(call):
 
     except Exception as e:
         print(repr(e))
-
 
 # RUN
 bot.polling(none_stop=True)
