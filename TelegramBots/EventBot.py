@@ -1,5 +1,3 @@
-import time
-
 import telebot
 import config
 
@@ -183,7 +181,8 @@ def lalala(message):
                 markup = types.InlineKeyboardMarkup(row_width=1)
                 item1 = types.InlineKeyboardButton("Подписаться", callback_data=f'Subscribe {i}')
 
-                if (config.usersEvents.get(message.chat.id)) and (config.usersEvents.get(message.chat.id).count(config.events[i]) != 0):
+                if (config.usersEvents.get(message.chat.id)) and (
+                        config.usersEvents.get(message.chat.id).count(config.events[i]) != 0):
                     item1 = types.InlineKeyboardButton("Отписаться", callback_data=f'Unsubscribe {i} {1}')
 
                 markup.add(item1)
@@ -296,7 +295,8 @@ def callback_inline(call):
 
                     lastEvents = config.usersEvents.get(call.message.chat.id)
 
-                    config.adminsEvents.get(eventToRemove).pop(config.adminsEvents.get(eventToRemove).index(config.usersInfo.get(call.message.chat.id)))
+                    config.adminsEvents.get(eventToRemove).pop(
+                        config.adminsEvents.get(eventToRemove).index(config.usersInfo.get(call.message.chat.id)))
                     print(config.adminsEvents)
 
                     lastEvents.pop(lastEvents.index(eventToRemove))
