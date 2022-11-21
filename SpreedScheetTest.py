@@ -3,9 +3,21 @@ import datetime
 import time
 
 sa = gspread.service_account(filename='service_account.json')
-sh = sa.open('Дни Рождения Ветеранов')
+sh = sa.open('Волонтёры Победы')
+wks = sh.worksheet('Дни Рождения Ветеранов')
 
-wks = sh.worksheet('Лист1')
+
+def GetValues():
+    for i in range(2, wks.row_count):
+
+        values = []
+
+        if wks.cell(i, 1).value is None:
+            break
+
+        if newDay == today:
+            print(f'Сегодня день рождения у - {wks.cell(i, 1).value}')
+
 
 while True:
     for i in range(2, wks.row_count):
