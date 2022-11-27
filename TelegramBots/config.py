@@ -1,5 +1,5 @@
 EventBotToken = '5433504782:AAEBePPN5kjLN7SHKEb7mT5mdVPZqMrOZcs'
-GreetingBotToken = '5510756293:AAHQCghV-qxuFxScpUchF2hoIGgOIfOf_u8'
+GreetingBotToken = '5701459715:AAEQXtgCIzAXImMK5vmGEcxq6OSxexiKyBM'
 
 events = []
 

@@ -153,12 +153,12 @@ def callback_inline(call):
 
             elif call.data == "Directions":
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-                item1 = types.InlineKeyboardButton("Великая Победа")
-                item2 = types.InlineKeyboardButton("Связь Поколений")
-                item3 = types.InlineKeyboardButton("Моя Победа")
-                item4 = types.InlineKeyboardButton("Наши Победы")
-                item5 = types.InlineKeyboardButton("Медиа Победа")
-                item6 = types.InlineKeyboardButton("Моя история")
+                item1 = types.InlineKeyboardButton("1")
+                item2 = types.InlineKeyboardButton("2")
+                item3 = types.InlineKeyboardButton("3")
+                item4 = types.InlineKeyboardButton("4")
+                item5 = types.InlineKeyboardButton("5")
+                item6 = types.InlineKeyboardButton("6")
 
 
                 markup.add(item1, item2, item3, item4, item5, item6)
@@ -207,12 +207,12 @@ def callback_inline(call):
 
             elif call.data == 'Back2':
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-                item1 = types.InlineKeyboardButton("Великая Победа")
-                item2 = types.InlineKeyboardButton("Связь Поколений")
-                item3 = types.InlineKeyboardButton("Моя Победа")
-                item4 = types.InlineKeyboardButton("Наши Победы")
-                item5 = types.InlineKeyboardButton("Медиа Победа")
-                item6 = types.InlineKeyboardButton("Моя история")
+                item1 = types.InlineKeyboardButton("1")
+                item2 = types.InlineKeyboardButton("2")
+                item3 = types.InlineKeyboardButton("3")
+                item4 = types.InlineKeyboardButton("4")
+                item5 = types.InlineKeyboardButton("5")
+                item6 = types.InlineKeyboardButton("6")
 
                 markup.add(item1, item2, item3, item4, item5, item6)
 
