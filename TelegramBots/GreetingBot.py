@@ -1,5 +1,6 @@
 import telebot
 import config
+import datetime
 
 from telebot import types
 
@@ -10,10 +11,49 @@ directioning = []
 
 sendingAll = []
 
+#sql
+import sqlite3 as sql
+con = sql.connect('Users.db', check_same_thread=False)
+
+def addUser(id):
+    date = str(datetime.date.today())
+    with con:
+        cur = con.cursor()
+        cur.execute("CREATE TABLE IF NOT EXISTS `Users` (`id` STRING, `Date` STRING)")
+
+        cur.execute("SELECT * FROM `Users`")
+        rows = cur.fetchall()
+        for row in rows:
+            print(row[0])
+            if row[0] == id:
+                return
+
+        cur.execute(f"INSERT INTO `Users` VALUES ('{id}', '{date}')")
+
+        con.commit()
+        cur.close()
+
+def removeUser(id):
+    try:
+        sqliteConnection = sql.connect('Users.db')
+        cursor = sqliteConnection.cursor()
+
+        # Deleting single record now
+        sql_delete_query = f"""DELETE from Users where id = {id}"""
+        cursor.execute(sql_delete_query)
+        sqliteConnection.commit()
+        print("Record deleted successfully ")
+        cursor.close()
+
+    except sql.Error as error:
+        print("Failed to delete record from sqlite table", error)
+
 
 @bot.message_handler(commands=['start', 'sendall', 'stop'])
 def commands(message):
     if message.text == '/start':
+        addUser(message.chat.id)
+
         config.greetingUsers.append(message.chat.id)
         bot.send_message(message.chat.id, '😎🕊Привет! На связи Голубь Гриша. Именно меня ты видел на логотипе огромного Всероссийского движения "Волонтёры Победы".', reply_markup=None)
         photo = open('GolubGrisha.jpg', 'rb')
@@ -39,6 +79,7 @@ def commands(message):
 
     elif message.text == '/stop':
         config.greetingUsers.remove(message.chat.id)
+        removeUser(message.chat.id)
 
 
 
