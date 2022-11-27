@@ -13,12 +13,13 @@ sendingAll = []
 
 #sql
 import sqlite3 as sql
-con = sql.connect('Users.db', check_same_thread=False)
+conUsers = sql.connect('Users.db', check_same_thread=False)
+conStat = sql.connect('Stat.db', check_same_thread=False)
 
 def addUser(id):
     date = str(datetime.date.today())
-    with con:
-        cur = con.cursor()
+    with conUsers:
+        cur = conUsers.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS `Users` (`id` STRING, `Date` STRING)")
 
         cur.execute("SELECT * FROM `Users`")
@@ -30,7 +31,7 @@ def addUser(id):
 
         cur.execute(f"INSERT INTO `Users` VALUES ('{id}', '{date}')")
 
-        con.commit()
+        conUsers.commit()
         cur.close()
 
 def removeUser(id):
@@ -47,6 +48,25 @@ def removeUser(id):
 
     except sql.Error as error:
         print("Failed to delete record from sqlite table", error)
+
+def addStatics(stat):
+    with conStat:
+        cur = conStat.cursor()
+        cur.execute("CREATE TABLE IF NOT EXISTS `Stat` (`Stickers` INT, `About` INT, `Directions` INT, `Why` INT, "
+                    "`Become` INT, `Questions` INT)")
+
+        cur.execute(f"SELECT `{stat}` FROM `Stat`")
+        actual = cur.fetchall()[0][0]
+
+        cur.execute(f"""
+        UPDATE
+          `Stat`
+        SET
+          `{stat}` = {actual + 1}
+        """)
+
+        conStat.commit()
+        cur.close()
 
 
 @bot.message_handler(commands=['start', 'sendall', 'stop'])
@@ -138,6 +158,7 @@ def callback_inline(call):
     try:
         if call.message:
             if call.data == "About":
+                addStatics('About')
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
                 item1 = types.InlineKeyboardButton('Назад')
                 markup.add(item1)
@@ -146,6 +167,7 @@ def callback_inline(call):
                                  f'👨‍👩‍👧Волонтеры Победы - это не просто общественное движение, а целая жизнь и семья. По всей стране и даже за рубежом налаживается связь поколений между молодежью и пожилыми людьми, большое количество молодых людей вовлекается в волонтерскую деятельность. За 7 лет в Нижегородской области было проведено более 4500 мероприятий разных тематик инаправлений. \nХочешь узнать немного подробнее - смотри направления)', reply_markup=markup)
 
             elif call.data == "Directions":
+                addStatics('Directions')
                 markup = types.InlineKeyboardMarkup(row_width=1)
                 item1 = types.InlineKeyboardButton("Великая Победа", callback_data='1')
                 item2 = types.InlineKeyboardButton("Связь Поколений", callback_data='2')
@@ -170,6 +192,7 @@ def callback_inline(call):
 
 
             elif call.data == "Why":
+                addStatics('Why')
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
                 item1 = types.InlineKeyboardButton('Назад')
                 markup.add(item1)
@@ -223,6 +246,7 @@ def callback_inline(call):
                                  parse_mode='Markdown', reply_markup=markup)
             elif call.data == "Reg":
                 print('+1')
+                addStatics('Become')
                 if not config.reg.count(call.message.chat.id):
                     config.reg.append(call.message.chat.id)
                     print(len(config.reg))
