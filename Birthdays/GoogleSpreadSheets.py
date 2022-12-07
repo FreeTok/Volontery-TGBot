@@ -14,7 +14,7 @@ def CheckDR(wksName):
         today = f'{datetime.date.today().day}.{datetime.date.today().month}.{datetime.date.today().year}'
         if today == df.iloc[i][1]:
             return df.iloc[i][0]
-    return False
+    return None
 
 CheckDR('Дни Рождения Ветеранов')
 CheckDR('Дни Рождения Организаторов')
